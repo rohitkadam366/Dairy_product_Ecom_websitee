@@ -21,7 +21,8 @@
                 </div>
                 <br>
                 <div class='text-center text-primary fw-bold'>
-                    <small>Existing User ? <a class='text-danger' href = '#'>Login</a></small>
+                    <small>Existing User ? <a class='text-danger' href = '{% url 'login' %}'>Login</a></small>
+
                 </div>
 
                 {% if form.non_field_errors %}

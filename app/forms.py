@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,PasswordResetForm
 from django.contrib.auth.models import User
-from . models import Customer
+from . models import Customer,STATE_CHOICES
+from django_select2.forms import Select2Widget
 
 class CustomerLoginForm(AuthenticationForm):
     username = forms.CharField(label='Username', max_length=30, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -28,16 +29,20 @@ class mypasswordresetform(PasswordResetForm):
     email = forms.EmailField(label='Email',widget=forms.EmailInput(attrs={'class':'form-control'}))
 
 
+
 class CustomerProfileForm(forms.ModelForm):
     class Meta:
         model = Customer
-        fields = ['name','locality','city','state','zipcode']
-        name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-        locality = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-        city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-        state = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-        zipcode = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-            
+        fields = ['name', 'locality', 'city', 'state', 'zipcode']
+        widgets = {
+            'state': Select2Widget(attrs={'class': 'form-control'}),
+        }
+
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    locality = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    state = forms.ChoiceField(choices=STATE_CHOICES, widget=Select2Widget(attrs={'class': 'form-control'}))
+    zipcode = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     
 
