@@ -1,7 +1,16 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,PasswordResetForm
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import AuthenticationForm
+from . models import Customer
+
+class CustomerLoginForm(AuthenticationForm):
+    username = forms.CharField(label='Username', max_length=30, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password = forms.CharField(label='Password', max_length=30, widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+
+    def __init__(self, *args, **kwargs):
+        super(CustomerLoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "Custom Username Label"
+        self.fields['password'].label = "Custom Password Label"
 
 class CustomerRegistrationForm(UserCreationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'autofocus':'True','class':'form-control'}))
@@ -14,4 +23,23 @@ class CustomerRegistrationForm(UserCreationForm):
         model = User
         fields= ['username','email','password1','password2']
 
-        
+
+class mypasswordresetform(PasswordResetForm):
+    email = forms.EmailField(label='Email',widget=forms.EmailInput(attrs={'class':'form-control'}))
+
+
+class CustomerProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['name','locality','city','state','zipcode']
+        name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+        locality = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+        city = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+        state = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+        zipcode = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+            
+
+    
+
+
+
