@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,PasswordResetForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm,PasswordResetForm,PasswordChangeForm
 from django.contrib.auth.models import User
 from . models import Customer,STATE_CHOICES
 from django_select2.forms import Select2Widget
@@ -24,6 +24,10 @@ class CustomerRegistrationForm(UserCreationForm):
         model = User
         fields= ['username','email','password1','password2']
 
+class myPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(label='Old Password',widget=forms.PasswordInput(attrs={'class':'form-control','autofocus':'True','autocomplete':'current-password'}))
+    new_password1 = forms.CharField(label='New Password',widget=forms.PasswordInput(attrs={'class':'form-control','autofocus':'True','autocomplete':'current-password'}))
+    new_password2 = forms.CharField(label='Confirm Password',widget=forms.PasswordInput(attrs={'class':'form-control','autofocus':'True','autocomplete':'current-password'}))
 
 class mypasswordresetform(PasswordResetForm):
     email = forms.EmailField(label='Email',widget=forms.EmailInput(attrs={'class':'form-control'}))

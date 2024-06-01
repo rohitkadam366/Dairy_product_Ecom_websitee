@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.views import View
 from . models import Product,Customer
-from . forms import CustomerRegistrationForm,CustomerLoginForm,CustomerProfileForm
+from . forms import CustomerRegistrationForm,CustomerLoginForm,CustomerProfileForm,myPasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
 from django.contrib.auth import authenticate, login
@@ -59,8 +59,31 @@ class profile_view(View):
         return render(request,'app/profile.html',locals())
     
 def address(request):
-    pass
-    
+    add = Customer.objects.filter(user=request.user)
+    return render(request,'app/address.html',locals())
+
+class updateaddress(View):
+    def get(self,request,pk):
+        add = Customer.objects.get(pk=pk)
+        form=CustomerProfileForm(instance=add)
+        return render(request,'app/updateaddress.html',locals())
+    def post(self,request,pk):
+        form=CustomerProfileForm(request.POST)
+        if form.is_valid():
+            add = Customer.objects.get(pk=pk)
+            user= request.user
+            add.name = form.cleaned_data['name']
+            add.locality = form.cleaned_data['locality']
+            add.city = form.cleaned_data['city']
+            add.state = form.cleaned_data['state']
+            add.zipcode = form.cleaned_data['zipcode']
+            add.save()
+            messages.success(request,'Congratulations!! Profile data Update  !!!')
+            return redirect('address')
+        else:
+            messages.error(request,'Invalid Credentials')
+            return render(request,'app/updateaddress.html',locals())
+        
     
     
 
@@ -97,7 +120,27 @@ class Loginview(View):
             else:
                 messages.warning(request,'Please enter correct username and password')
                 return render(request,'app/login.html',locals())
+
+# class password_change_form(View):
+#     def get(self,request):
+#         form=myPasswordChangeForm()
+#         return render(request,'app/password_reset.html',locals())
+#     def post(self,request):
+#         form=myPasswordChangeForm(request.POST)
+#         if form.is_valid():
+#             oldpass=form.cleaned_data.get('old_password')
+#             newpass=form.cleaned_data.get('new_password1')
+#             user=request.user
+#             if user.check_password(oldpass):
+#                 user.set_password(newpass)
+#                 user.save()
+#                 messages.success(request,'Password changed successfully')
+#                 return redirect('index')
+#             else:
+#                 messages.warning(request,'Please enter correct old password')
+#                 return render(request,'app/password_reset.html',locals())
             
+
             
 # class password_reset(View):
 #     def get(self,request):

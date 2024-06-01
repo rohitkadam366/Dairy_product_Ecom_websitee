@@ -46,7 +46,7 @@
 
                 <br>
                 <div class='text-center text-primary fw-bold'>
-                    <small>New User ? <a class='text-danger' href = '#'>Create an Account</a></small>
+                    <small>New User ? <a class='text-danger' href = '{% url 'customerregistration' %}'>Create an Account</a></small>
                 </div>
 
                 {% if form.non_field_errors %}
