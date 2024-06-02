@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import View
-from . models import Product,Customer
+from . models import Product,Customer,Cart
 from . forms import CustomerRegistrationForm,CustomerLoginForm,CustomerProfileForm,myPasswordChangeForm
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
@@ -84,8 +84,36 @@ class updateaddress(View):
             messages.error(request,'Invalid Credentials')
             return render(request,'app/updateaddress.html',locals())
         
+def add_to_cart(request):
+    user = request.user
+    product_id = request.GET.get('prod_id')
+
+
+        
     
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #############################             Login & Authentication All Method   ############################
 
@@ -120,6 +148,29 @@ class Loginview(View):
             else:
                 messages.warning(request,'Please enter correct username and password')
                 return render(request,'app/login.html',locals())
+        else:
+            messages.warning(request,'Please enter correct username and password')
+            return render(request,'app/login.html',locals())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # class password_change_form(View):
 #     def get(self,request):
