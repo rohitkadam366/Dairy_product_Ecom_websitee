@@ -1,0 +1,72 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}Login{% endblock title%}
+<style>
+    .alert {
+        display: none;
+        position: fixed;
+        top: 70px; /* Adjust as needed to be below your header */
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 9999;
+    }
+</style>
+
+{% block content%} 
+
+<div class = 'container'>
+    <div class = 'row my-3'>
+        <div class = 'col-sm-6 offset-sm-3'>
+            <h1> Login</h1>
+            <br>
+            {% if messages %}
+                {% for message in messages %}
+                <p class='alert alert-{{message.tags}} my-3'>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+
+            <form method = 'POST' action = '' novalidate class='shadow p-5'>
+                {% csrf_token %}
+                {% comment %} {{form}} {% endcomment %}
+                {% for fm in form %}
+                    <div class="form-group mb-3">
+                        {{ fm.label_tag }}
+                        {{ fm }}
+                        <small class="text-danger">{{ fm.errors|striptags }}</small>
+                    </div>
+                {% endfor %}
+
+                <br>
+                <small><a href="{% url 'password_reset' %}">Forgot Password</a></small>
+                <br>
+
+                <div class='text-center'>
+                    <input type='submit' value='submit' class='btn btn-primary '><br>
+                </div>
+
+                <br>
+                <div class='text-center text-primary fw-bold'>
+                    <small>New User ? <a class='text-danger' href = '{% url 'customerregistration' %}'>Create an Account</a></small>
+                </div>
+
+          
+               
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        const messageContainer = $('#message-container');
+        const messages = messageContainer.find('.alert');
+
+        if (messages.length) {
+            messages.each(function(index) {
+                $(this).delay(500 * index).fadeIn(500).delay(2000).fadeOut(500);
+            });
+        }
+    });
+</script>
+
+{% endblock content %}

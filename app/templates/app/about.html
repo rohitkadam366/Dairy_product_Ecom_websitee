@@ -1,0 +1,53 @@
+{% extends "app/base.html" %}
+{% load static %}
+{% block title %}About{% endblock title%}
+
+{% block banner_slider %}
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'app/images/banner/b1.jpg'%}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'app/images/banner/b2.jpg'%}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'app/images/banner/b3.jpg'%}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+            <img src="{% static 'app/images/banner/b4.jpg'%}" class="d-block w-100" alt="...">
+        </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+{% endblock banner_slider %}
+
+{% block content %}
+
+
+
+<div class='container mt-3'>
+    <div class='row'>
+        <div class='col-md-12'>
+            <h2 class='text-center'>About Us</h2>
+        </div>
+    </div>
+    <div class="container">
+        <p class='text-justify '>Dairy products or milk products, also known as lacticinia, are food products made from (or containing) milk.[a][1] The most common dairy animals are cow, water buffalo, nanny goat, and ewe. Dairy products include common grocery store food around the world such as yogurt, cheese, milk and butter.[2][3] A facility that produces dairy products is a dairy.[b][4] Dairy products are consumed worldwide to varying degrees.[5] Some people avoid some or all dairy products because of lactose intolerance, veganism, environmental concerns, other health reasons or beliefs.</P>
+    </div>
+    <br><br>
+</div>
+
+    
+
+
+
+{% endblock content %}
