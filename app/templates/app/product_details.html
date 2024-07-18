@@ -21,9 +21,12 @@
                 <ul>
                     <br><br>
                 <div class="buttons row flex">
-                    <button type='submit' class='d-grid gap-2 btnl btn btn-danger p-1 m-1 btn-lg text-decoration-none text-white'>Add to Cart</button>
+                    <form action="/add_to_cart" class="buttons row flex">
+                        <input type="hidden" name="prod_id" value={{product.id}}>
+                        <button type='submit' class='d-grid gap-2 btnl btn btn-danger p-1 m-1 btn-lg text-decoration-none text-white'>Add to Cart</button>
+                    </form>
                     <div class='btn btn-dark p-1 m-1 btn-lg mt-2'>
-                        <a href="#" class='text-decoration-none text-white'>Buy Now</a>
+                    <a href="{% url 'cart' %}" class='text-decoration-none text-white'>Buy Now</a>
                 </div>
 
         </div>

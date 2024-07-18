@@ -83,10 +83,22 @@ class updateaddress(View):
         else:
             messages.error(request,'Invalid Credentials')
             return render(request,'app/updateaddress.html',locals())
-        
+
+
 def add_to_cart(request):
     user = request.user
     product_id = request.GET.get('prod_id')
+    print(product_id)
+    product = Product.objects.get(id=product_id)
+    Cart(user=user,product=product)
+    return redirect("/cart")
+
+def show_cart(request):
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    return render(request,'app/addcart.html',locals())
+
+
 
 
         

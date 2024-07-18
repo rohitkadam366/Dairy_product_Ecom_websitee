@@ -20,7 +20,7 @@ urlpatterns = [
 
     #### CART 
     path('add_to_cart/',views.add_to_cart,name='add_to_cart'),
-    # path('cart/',views.cart,name='cart'),
+    path('cart/',views.show_cart,name='cart'),
 
 
 
