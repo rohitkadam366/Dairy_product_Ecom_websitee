@@ -21,6 +21,8 @@ urlpatterns = [
     #### CART 
     path('add_to_cart/',views.add_to_cart,name='add_to_cart'),
     path('cart/',views.show_cart,name='cart'),
+    path('checkout/',views.add_to_cart,name='checkout'),
+    path('pluscart/',views.plus_cart,name='pluscart'),
 
 
 

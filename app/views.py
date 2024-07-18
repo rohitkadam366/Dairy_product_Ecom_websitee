@@ -5,6 +5,8 @@ from . forms import CustomerRegistrationForm,CustomerLoginForm,CustomerProfileFo
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm,PasswordResetForm
 from django.contrib.auth import authenticate, login
+from django.http import JsonResponse
+from django.db.models import Q
 
 # Create your views here.
 def index(request):
@@ -90,13 +92,43 @@ def add_to_cart(request):
     product_id = request.GET.get('prod_id')
     print(product_id)
     product = Product.objects.get(id=product_id)
-    Cart(user=user,product=product)
+    Cart(user=user,product=product).save()
     return redirect("/cart")
 
 def show_cart(request):
     user = request.user
     cart = Cart.objects.filter(user=user)
+    amount=0
+    for p in cart:
+        value = p.quantity * p.product.discounted_price
+        amount = amount+value
+    totalamount = amount+40
+
     return render(request,'app/addcart.html',locals())
+
+def plus_cart(request):
+    if request.method == 'GET':
+        prod_id = request.GET['prod_id']
+        c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
+        c.quantity+=1
+        c.save()
+        user=request.user
+        cart = Cart.objects.filter(user=user)
+        amount = 0
+        for p in cart:
+            value = p.quantity * p.product.discounted_price
+            amount = amount+value
+        totalamount=amount+40
+        data = {
+                'quantity': c.quantity,
+                'amount': amount,
+                'totalamount':totalamount
+                }
+        return JsonResponse(data)
+
+
+   
+        
 
 
 
