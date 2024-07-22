@@ -39,6 +39,10 @@ $('.plus-cart').click(function(){
     })
 })
 
+$('.plus-cart').click(function(){
+    console.log("Button-click")
+})
+
 $('.minus-cart').click(function(){
     var id=$(this).attr("pid").toString();
     var eml=this.parentNode.children[2] 

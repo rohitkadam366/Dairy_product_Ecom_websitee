@@ -37,17 +37,25 @@
                         <img src="{{ product.product.product_image.url }}" alt="" class="img-fluid img-thumbnail shadow-sm" height='150' width='150'>
                     </div>
                     <div class='col-sm-9'>
-                        <h5>{{ product.product.title }}</h5>
-                        <p class='mb-2 text-muted small'>{{ product.product.description }}</p>
-                        <div class='my-3'>
-                            <label for="quantity">Quantity:</label>
-                            <a class="minus-cart btn" pid="{{product.product.id}}"><i class="fas fa-minus-square fa-lg"> </i></a>
+                        <div>
+                            <h5>{{product.product.title}}</h5>
+                            <p class='mb-2 text-muted small'>{{product.product.description}}</p>
+                            {% comment %} <div class='my-3'>
+                                <label for="quantity">Quantity:</label>
+                                <a class="minus-cart btn" pid="{{product.product.id}}"><i class="fas fa-minus-square fa-lg"> </i></a>
+                                    <span id="quantity">{{product.quantity}}</span>
+                                <a class="plus-cart btn" pid="{{product.product.id}}"><i class="fas fa-plus-square fa-lg"> </i></a>
+                            </div> {% endcomment %}
+                            <div class='my-3'>
+                                <label for="quantity">Quantity:</label>
+                                <a class="minus-cart btn" pid="{{product.product.id}}"><i class="fas fa-minus-square fa-lg"></i></a>
                                 <span id="quantity">{{product.quantity}}</span>
-                            <a class="plus-cart btn" pid="{{product.product.id}}"><i class="fas fa-plus-square fa-lg"> </i></a>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <a href="#" class="remove-cart btn btn-sm btn-secondary mr-3" pid="{{product.product.id}}">Remove Item</a>
-                            <p class="mb-0"><span><strong>Rs. {{product.product.discounted_price}}</strong></span></p>
+                                <a class="plus-cart btn" pid="{{product.product.id}}"><i class="fas fa-plus-square fa-lg"></i></a>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="#" class="remove-cart btn btn-sm btn-secondary mr-3" pid="{{product.product.id}}">Remove Item</a>
+                                <p class="mb-0"><span><strong>Rs. {{product.product.discounted_price}}</strong></span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -83,5 +91,60 @@
         </div>
     </div>
 </body>
+<!-- Make sure jQuery is loaded -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        // Plus Cart Button
+        $(document).on('click', '.plus-cart', function() {
+            var id = $(this).attr("pid").toString();
+            var eml = this.parentNode.children[2];
+            console.log("Plus button clicked, product id:", id); // Debugging log
+            $.ajax({
+                type: "GET",
+                url: "/pluscart",
+                data: {
+                    prod_id: id
+                },
+                success: function(data) {
+                    console.log("Plus button success, response data:", data); // Debugging log
+                    eml.innerText = data.quantity;
+                    document.getElementById("amount").innerText = data.amount;
+                    document.getElementById("totalamount").innerText = data.totalamount;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error in plus-cart AJAX request", status, error);
+                    console.log("Response Text: ", xhr.responseText); // Detailed error message
+                }
+            });
+        });
+    
+        // Minus Cart Button
+        $(document).on('click', '.minus-cart', function() {
+            var id = $(this).attr("pid").toString();
+            var eml = this.parentNode.children[2];
+            console.log("Minus button clicked, product id:", id); // Debugging log
+            $.ajax({
+                type: "GET",
+                url: "/minuscart",
+                data: {
+                    prod_id: id
+                },
+                success: function(data) {
+                    console.log("Minus button success, response data:", data); // Debugging log
+                    eml.innerText = data.quantity;
+                    document.getElementById("amount").innerText = data.amount;
+                    document.getElementById("totalamount").innerText = data.totalamount;
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error in minus-cart AJAX request", status, error);
+                    console.log("Response Text: ", xhr.responseText); // Detailed error message
+                }
+            });
+        });
+    });
+</script>
+
 {% endblock content %}
                         
